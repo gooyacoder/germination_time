@@ -1,10 +1,12 @@
 package com.gooyacoder.germinationtime
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.gooyacoder.germinationtime.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,17 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Shows plant_germination_started", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
 
-        binding.fab2.setOnClickListener { view ->
-            Snackbar.make(view, "Shows plant_germination_completed", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab2).show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -46,6 +38,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun start_button_clicked(view: View) {
+        var intent = Intent(applicationContext, PlantGerminationStarted::class.java)
+        startActivity(intent)
     }
 
 }
