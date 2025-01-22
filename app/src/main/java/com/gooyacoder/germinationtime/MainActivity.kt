@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.gooyacoder.germinationtime.databinding.ActivityMainBinding
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +22,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-
+        val dateTextView = findViewById<TextView>(R.id.dateTextView)
+        val date = Date()
+        val germinationDate = GerminationDate()
+        dateTextView.setText(germinationDate.dateToPersian(date).longDateString)
 
     }
 

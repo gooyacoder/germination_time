@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.gooyacoder.germinationtime"
-        minSdk = 26
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,6 +40,7 @@ android {
 
 dependencies {
 
+    implementation("com.aminography:primecalendar:1.7.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
