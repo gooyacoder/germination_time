@@ -1,13 +1,17 @@
 package com.gooyacoder.germinationtime
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.gooyacoder.germinationtime.databinding.ActivityMainBinding
 import java.util.Date
 
@@ -27,6 +31,22 @@ class MainActivity : AppCompatActivity() {
         val germinationDate = GerminationDate()
         dateTextView.setText(germinationDate.dateToPersian(date).longDateString)
 
+        val g_completed_btn = findViewById<Button>(R.id.stop_button)
+        g_completed_btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                var intent = Intent(applicationContext, PlantGerminationCompleted::class.java)
+                startActivity(intent)
+            }
+        })
+
+        val g_started_btn = findViewById<Button>(R.id.start_activity_button)
+        g_started_btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                var intent = Intent(applicationContext, PlantGerminationStarted::class.java)
+                startActivity(intent)
+            }
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -44,10 +64,4 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-    fun start_button_clicked(view: View) {
-        var intent = Intent(applicationContext, PlantGerminationStarted::class.java)
-        startActivity(intent)
-    }
-
 }

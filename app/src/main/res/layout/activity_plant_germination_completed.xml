@@ -8,7 +8,7 @@
     tools:context=".PlantGerminationCompleted">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/seedList"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="50dp"
@@ -26,7 +26,7 @@
         android:text="پایان"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/seedList" />
 
     <TextView
         android:id="@+id/resultTextview"

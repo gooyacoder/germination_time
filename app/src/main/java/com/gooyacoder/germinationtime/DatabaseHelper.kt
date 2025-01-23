@@ -48,7 +48,7 @@ class DatabaseHelper(context: Context?) :
         private const val KEY_NAME = "plant_name"
         private const val KEY_IMAGE = "plant_image"
         private const val KEY_PLANT_START_DATE = "plant_start_date"
-        private const val KEY_PLANT_STOP_DATE = "plant_stop_date"
+
 
 
 
@@ -56,8 +56,7 @@ class DatabaseHelper(context: Context?) :
         private const val CREATE_TABLE_PLANT = "CREATE TABLE " + DB_TABLE + "(" +
                 KEY_NAME + " TEXT NOT NULL UNIQUE," +
                 KEY_IMAGE + " BLOB," +
-                KEY_PLANT_START_DATE + " TEXT," +
-                KEY_PLANT_STOP_DATE + " TEXT);"
+                KEY_PLANT_START_DATE + " TEXT);"
 
     }
 
@@ -75,11 +74,12 @@ class DatabaseHelper(context: Context?) :
     }
 
     @Throws(SQLiteException::class)
-    fun addEntry(name: String, image: ByteArray): Long {
+    fun addEntry(name: String, image: ByteArray, startDate: String): Long {
         val database = this.writableDatabase
         val cv = ContentValues()
         cv.put(KEY_NAME, name)
         cv.put(KEY_IMAGE, image)
+        cv.put(KEY_PLANT_START_DATE, startDate)
         val result = database.insert(
             DB_TABLE,
             null,
@@ -99,16 +99,16 @@ class DatabaseHelper(context: Context?) :
         val name = cursor.getString(0)
         val imagebyte = cursor.getBlob(1)
         val start_date = cursor.getString(2)
-        val stop_date = cursor.getString(3)
 
-        val startDate: LocalDate = LocalDate.parse(start_date)
-        val stopDate: LocalDate = LocalDate.parse(stop_date)
+
+        val g_date = GerminationDate()
+        val startDate: Date = g_date.stringToDate(start_date)
+
 
         val plant = Plant(
             name,
             imagebyte,
-            startDate,
-            stopDate
+            startDate
 
         )
         db.close()
@@ -125,15 +125,15 @@ class DatabaseHelper(context: Context?) :
             val name = cursor.getString(0)
             val imagebyte = cursor.getBlob(1)
             val start_date = cursor.getString(2)
-            val stop_date = cursor.getString(3)
 
-            val startDate: LocalDate = LocalDate.parse(start_date)
-            val stopDate: LocalDate = LocalDate.parse(stop_date)
+
+            val g_date = GerminationDate()
+            val startDate: Date = g_date.stringToDate(start_date)
+
             val plant = Plant(
                 name,
                 imagebyte,
-                startDate,
-                stopDate
+                startDate
             )
             plants.add(plant)
         }
@@ -169,7 +169,6 @@ class DatabaseHelper(context: Context?) :
         cv.put(KEY_NAME, plant.plant_name)
         cv.put(KEY_IMAGE, plant.image)
         cv.put(KEY_PLANT_START_DATE, plant.startDate.toString())
-        cv.put(KEY_PLANT_STOP_DATE, plant.germinationDate.toString())
         db.insert(DB_TABLE, null, cv)
         db.close()
     }
