@@ -1,15 +1,19 @@
 package com.gooyacoder.germinationtime
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Date
 
 
-class PlantGerminationCompleted : AppCompatActivity() {
+class PlantGerminationCompleted : AppCompatActivity(), ItemAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,8 +33,23 @@ class PlantGerminationCompleted : AppCompatActivity() {
         }
         val seedList = findViewById<RecyclerView>(R.id.seedList)
         seedList.layoutManager = LinearLayoutManager(this)
-        val adapter = ItemAdapter(list)
+        val adapter = ItemAdapter(list, this)
         seedList.adapter = adapter
 
+        val stopBtn = findViewById<Button>(R.id.stop_button)
+        stopBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                finish()
+            }
+        })
+
+    }
+    override fun onItemClick(item: Item) {
+        val today: Date = Date()
+        val g_date = GerminationDate()
+        val start: Date = g_date.stringToDate(item.startDate)
+        val c_date = CalculateDays()
+        val days = c_date.Calculate(start, today)
+        Toast.makeText(applicationContext, "${days} days.", Toast.LENGTH_LONG).show()
     }
 }
