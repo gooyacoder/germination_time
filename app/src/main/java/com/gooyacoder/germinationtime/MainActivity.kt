@@ -2,6 +2,7 @@ package com.gooyacoder.germinationtime
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import java.util.Date
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +40,13 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+        mediaPlayer = MediaPlayer.create(this, R.raw.audio_001)
 
         val g_started_btn = findViewById<Button>(R.id.start_activity_button)
         g_started_btn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 var intent = Intent(applicationContext, PlantGerminationStarted::class.java)
+                mediaPlayer.start()
                 startActivity(intent)
             }
         })
@@ -63,5 +67,9 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release() // Release resources when done
     }
 }
