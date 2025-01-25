@@ -10,13 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class ItemAdapter(private val itemList: List<Item>,
-                  private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+                  private val itemClickListener: OnItemClickListener,
+                  private val listener: OnItemLongClickListener) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(item: Item)
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    interface OnItemLongClickListener {
+        fun onItemLongClick(item: Item)
+    }
+
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.plantName)
         val date: TextView = view.findViewById(R.id.startDate)
         val image: ImageView = view.findViewById(R.id.plantImage)
@@ -28,6 +34,12 @@ class ItemAdapter(private val itemList: List<Item>,
             image.setImageBitmap(DbBitmapUtility.getImage(item.image))
             itemView.setOnClickListener {
                 clickListener.onItemClick(item)
+            }
+        }
+        init {
+            itemView.setOnLongClickListener {
+                listener.onItemLongClick(itemList[adapterPosition])
+                true
             }
         }
 

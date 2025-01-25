@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.Date
 
 
-class PlantGerminationCompleted : AppCompatActivity(), ItemAdapter.OnItemClickListener {
+class PlantGerminationCompleted : AppCompatActivity(), ItemAdapter.OnItemClickListener,
+ItemAdapter.OnItemLongClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,7 +35,7 @@ class PlantGerminationCompleted : AppCompatActivity(), ItemAdapter.OnItemClickLi
         }
         val seedList = findViewById<RecyclerView>(R.id.seedList)
         seedList.layoutManager = LinearLayoutManager(this)
-        val adapter = ItemAdapter(list, this)
+        val adapter = ItemAdapter(list, this, this)
         seedList.adapter = adapter
 
         val stopBtn = findViewById<Button>(R.id.stop_button)
@@ -52,4 +54,25 @@ class PlantGerminationCompleted : AppCompatActivity(), ItemAdapter.OnItemClickLi
         val days = c_date.Calculate(start, today)
         Toast.makeText(applicationContext, "${days} days.", Toast.LENGTH_LONG).show()
     }
+
+    override fun onItemLongClick(item: Item) {
+        // Handle the long-press event
+        val builder = AlertDialog.Builder(this)
+        val plant_name = item.title
+        builder.setMessage("Are you sure you want to Delete $plant_name?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id ->
+                val db = DatabaseHelper(this)
+                db.removePlant(plant_name)
+                db.close()
+
+            }
+            .setNegativeButton("No") { dialog, id ->
+                // Dismiss the dialog
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
+
 }
