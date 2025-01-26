@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayer_002: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +35,11 @@ class MainActivity : AppCompatActivity() {
         dateTextView.setText(germinationDate.dateToPersian(date).longDateString)
 
         val g_completed_btn = findViewById<Button>(R.id.stop_button)
+        mediaPlayer_002 = MediaPlayer.create(this, R.raw.audio_002)
         g_completed_btn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 var intent = Intent(applicationContext, PlantGerminationCompleted::class.java)
+                mediaPlayer_002.start()
                 startActivity(intent)
             }
         })
@@ -71,5 +74,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release() // Release resources when done
+        mediaPlayer_002.release()
     }
 }

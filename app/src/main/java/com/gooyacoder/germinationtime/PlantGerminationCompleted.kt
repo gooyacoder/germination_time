@@ -3,6 +3,7 @@ package com.gooyacoder.germinationtime
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -53,6 +54,8 @@ ItemAdapter.OnItemLongClickListener {
         val c_date = CalculateDays()
         val days = c_date.Calculate(start, today)
         Toast.makeText(applicationContext, "${days} days.", Toast.LENGTH_LONG).show()
+        val resultTextView = findViewById<TextView>(R.id.resultTextview)
+        resultTextView.setText("${days} days.")
     }
 
     override fun onItemLongClick(item: Item) {
