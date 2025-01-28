@@ -1,5 +1,6 @@
 package com.gooyacoder.germinationtime
 
+
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Date
+
 
 
 class PlantGerminationCompleted : AppCompatActivity(), ItemAdapter.OnItemClickListener,
@@ -46,6 +48,7 @@ ItemAdapter.OnItemLongClickListener {
             }
         })
 
+
     }
     override fun onItemClick(item: Item) {
         val today: Date = Date()
@@ -53,7 +56,25 @@ ItemAdapter.OnItemLongClickListener {
         val start: Date = g_date.stringToDate(item.startDate)
         val c_date = CalculateDays()
         val days = c_date.Calculate(start, today)
-        Toast.makeText(applicationContext, "${days} days.", Toast.LENGTH_LONG).show()
+        //Toast.makeText(applicationContext, "${days} days.", Toast.LENGTH_LONG).show()
+        // Assuming you're inside an activity or have a context available
+
+// Inflate your custom toast layout
+        val inflater = layoutInflater
+        val layout = inflater.inflate(R.layout.toast_layout, null)
+
+// Create your toast and set its properties
+        val toast = Toast(applicationContext)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = layout // set the inflated view to the Toast
+
+// Set the text of the custom toast message
+        val textView: TextView = layout.findViewById(R.id.toast_text)
+        textView.text = "${days} days."
+
+// Show the toast
+        toast.show()
+
         val resultTextView = findViewById<TextView>(R.id.resultTextview)
         resultTextView.setText("${days} days.")
     }

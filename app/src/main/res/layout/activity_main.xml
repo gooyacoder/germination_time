@@ -28,7 +28,7 @@
         android:id="@+id/start_activity_button"
         android:layout_width="200dp"
         android:layout_height="70dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/button_color"
         android:text="شروع"
         android:textSize="24sp"
@@ -71,13 +71,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="196dp"
+        android:layout_height="196dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@drawable/germinating_seed" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
