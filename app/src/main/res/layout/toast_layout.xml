@@ -10,7 +10,7 @@
         android:id="@+id/toast_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="#A1FF00"
         android:textSize="28sp"
         android:fontFamily="sans-serif-black"/>
 
