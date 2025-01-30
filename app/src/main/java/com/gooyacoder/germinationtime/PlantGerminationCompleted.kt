@@ -89,6 +89,7 @@ ItemAdapter.OnItemLongClickListener {
                 val db = DatabaseHelper(this)
                 db.removePlant(plant_name)
                 db.close()
+                this.recreate()
 
             }
             .setNegativeButton("No") { dialog, id ->
