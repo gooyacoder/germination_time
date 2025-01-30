@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.gooyacoder.germinationtime.databinding.ActivityMainBinding
 import java.util.Date
 
@@ -54,6 +55,13 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        val dataManager: Button = findViewById(R.id.dataManager)
+        dataManager.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                showDialog()
+            }
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,5 +83,43 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         mediaPlayer.release() // Release resources when done
         mediaPlayer_002.release()
+    }
+
+    private fun showDialog() {
+        val options = arrayOf("Save Data", "Upload Data")
+        var selectedOption = -1
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Choose an option")
+        builder.setSingleChoiceItems(options, -1) { dialog, which ->
+            selectedOption = which
+        }
+
+        builder.setPositiveButton("OK") { dialog, which ->
+            if (selectedOption != -1) {
+                //Toast.makeText(this, "Selected: ${options[selectedOption]}", Toast.LENGTH_SHORT).show()
+                if(options[selectedOption] == "Save Data"){
+                    //Save Data to File
+
+
+
+                    Toast.makeText(this, "Data Saved to File Successfully.", Toast.LENGTH_SHORT).show()
+                }
+                else if(options[selectedOption] == "Upload Data"){
+                    //Upload Data from File
+
+
+
+
+                    Toast.makeText(this, "Data Uploaded form File Successfully.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 }
