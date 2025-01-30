@@ -16,6 +16,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.gooyacoder.germinationtime.databinding.ActivityMainBinding
 import java.util.Date
+import android.os.Handler
+import android.os.Looper
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -100,14 +112,28 @@ class MainActivity : AppCompatActivity() {
                 //Toast.makeText(this, "Selected: ${options[selectedOption]}", Toast.LENGTH_SHORT).show()
                 if(options[selectedOption] == "Save Data"){
                     //Save Data to File
+                    var mainHandler = Handler(Looper.getMainLooper());
 
+                    var myRunnable = Runnable() {
+                        run() {
+                            writeFileOnExternalStorage()
+                        }
+                    };
+                    mainHandler.post(myRunnable);
 
 
                     Toast.makeText(this, "Data Saved to File Successfully.", Toast.LENGTH_SHORT).show()
                 }
                 else if(options[selectedOption] == "Upload Data"){
                     //Upload Data from File
+                    var mainHandler = Handler(Looper.getMainLooper());
 
+                    var myRunnable = Runnable() {
+                        run() {
+                            updateFromFile()
+                        }
+                    };
+                    mainHandler.post(myRunnable);
 
 
 
@@ -122,4 +148,54 @@ class MainActivity : AppCompatActivity() {
 
         builder.create().show()
     }
+
+
+    fun writeFileOnExternalStorage() {
+        val db = DatabaseHelper(this)
+        val plants = db.getPlants()
+        db.close()
+        val plants_string = Json.encodeToString(plants)
+        val myExternalFile = File(getExternalFilesDir("giyahban"), "Data")
+        if(!myExternalFile.exists())
+            myExternalFile.mkdirs()
+        try {
+            val fileToWrite = File(myExternalFile, "plants.txt")
+            val fileOutPutStream = FileOutputStream(fileToWrite)
+            fileOutPutStream.write(plants_string.toByteArray())
+            fileOutPutStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+       // Toast.makeText(applicationContext,"Plants Data Saved.",Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateFromFile(){
+        val text = readFileFromExternalStorage()
+        val plants: MutableList<Plant> = Json.decodeFromString(text!!)
+        val db = DatabaseHelper(this)
+        try {
+            db.updatePlants(plants)
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+        db.close()
+        //Toast.makeText(applicationContext, "Plants Data Updated.", Toast.LENGTH_LONG).show()
+    }
+
+
+    fun readFileFromExternalStorage(): String? {
+        var myExternalFile = File(getExternalFilesDir("giyahban/Data"), "plants.txt")
+        var text: String? = null
+        var fileInputStream = FileInputStream(myExternalFile)
+        var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+        val stringBuilder: StringBuilder = StringBuilder()
+
+        while ({ text = bufferedReader.readLine(); text }() != null) {
+            stringBuilder.append(text)
+        }
+        fileInputStream.close()
+        return stringBuilder.toString()
+    }
+
 }

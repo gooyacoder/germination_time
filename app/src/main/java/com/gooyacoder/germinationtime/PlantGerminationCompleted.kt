@@ -14,6 +14,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Date
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+import kotlinx.serialization.modules.*
+
 
 
 
@@ -31,9 +35,8 @@ ItemAdapter.OnItemLongClickListener {
         var db = DatabaseHelper(applicationContext)
         val plants_in_database = db.getPlants()
         val list: ArrayList<Item> = ArrayList()
-        val g_date = GerminationDate()
         for(plant in plants_in_database){
-            val item = Item(plant.plant_name, g_date.dateToString(plant.startDate), plant.image)
+            val item = Item(plant.plant_name, plant.startDate, plant.image)
             list.add(item)
         }
         val seedList = findViewById<RecyclerView>(R.id.seedList)

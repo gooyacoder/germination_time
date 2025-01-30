@@ -18,6 +18,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.io.FileNotFoundException
 import java.util.Date
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+import kotlinx.serialization.modules.*
+
+
+
 
 class PlantGerminationStarted : AppCompatActivity() {
 

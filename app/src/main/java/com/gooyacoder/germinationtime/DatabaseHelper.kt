@@ -67,7 +67,7 @@ class DatabaseHelper(context: Context?) :
             val cv = ContentValues()
             cv.put(KEY_NAME, plant.plant_name)
             cv.put(KEY_IMAGE, plant.image)
-
+            cv.put(KEY_PLANT_START_DATE, plant.startDate)
             database.insert(DB_TABLE, null, cv)
         }
         database.close()
@@ -102,13 +102,12 @@ class DatabaseHelper(context: Context?) :
 
 
         val g_date = GerminationDate()
-        val startDate: Date = g_date.stringToDate(start_date)
 
 
         val plant = Plant(
             name,
             imagebyte,
-            startDate
+            start_date
 
         )
         db.close()
@@ -128,12 +127,11 @@ class DatabaseHelper(context: Context?) :
 
 
             val g_date = GerminationDate()
-            val startDate: Date = g_date.stringToDate(start_date)
 
             val plant = Plant(
                 name,
                 imagebyte,
-                startDate
+                start_date
             )
             plants.add(plant)
         }
@@ -168,7 +166,7 @@ class DatabaseHelper(context: Context?) :
         val cv = ContentValues()
         cv.put(KEY_NAME, plant.plant_name)
         cv.put(KEY_IMAGE, plant.image)
-        cv.put(KEY_PLANT_START_DATE, plant.startDate.toString())
+        cv.put(KEY_PLANT_START_DATE, plant.startDate)
         db.insert(DB_TABLE, null, cv)
         db.close()
     }
