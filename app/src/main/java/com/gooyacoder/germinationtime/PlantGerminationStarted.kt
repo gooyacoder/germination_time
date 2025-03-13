@@ -18,9 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.io.FileNotFoundException
 import java.util.Date
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
-import kotlinx.serialization.modules.*
+import android.graphics.Bitmap.createScaledBitmap
 
 
 
@@ -89,7 +87,7 @@ class PlantGerminationStarted : AppCompatActivity() {
         val imageView = findViewById<ImageView>(R.id.seedImage)
         if (requestCode == 1 && resultCode == RESULT_OK) {
             imageBitmap = data?.extras?.get("data") as Bitmap
-            //val plant_preview: ImageView = findViewById(R.id.plant_preview)
+            imageBitmap = resizeBitmapToQuarter(imageBitmap!!)
             imageView.setImageBitmap(imageBitmap)
         }
         else if (requestCode == 2 && resultCode == RESULT_OK){
@@ -100,7 +98,7 @@ class PlantGerminationStarted : AppCompatActivity() {
                     val input = contentResolver.openInputStream(selectedImage!!)
                     val selectedImg = BitmapFactory.decodeStream(input)
                     imageBitmap = selectedImg
-                    //val plant_preview: ImageView = findViewById(R.id.plant_preview)
+                    imageBitmap = resizeBitmapToQuarter(imageBitmap!!)
                     imageView.setImageBitmap(imageBitmap)
 
                 } catch (e: FileNotFoundException) {
@@ -111,4 +109,14 @@ class PlantGerminationStarted : AppCompatActivity() {
 
         }
     }
+
+    fun resizeBitmapToQuarter(bitmap: Bitmap): Bitmap {
+        // Calculate the new width and height
+        val newWidth = bitmap.width / 2
+        val newHeight = bitmap.height / 2
+
+        // Create the resized bitmap
+        return createScaledBitmap(bitmap, newWidth, newHeight, true)
+    }
+
 }
